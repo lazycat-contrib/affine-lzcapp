@@ -8,10 +8,10 @@ application:
     - /
   health_check:
     test_url: http://affine:3010/admin/setup
-
 services:
   affine:
     # ghcr.io/toeverything/affine:0.27.3
+    # upstream: ghcr.io/toeverything/affine:0.27.3
     image: ghcr.1ms.run/toeverything/affine:0.27.3
     binds:
       - /lzcapp/var/storage:/root/.affine/storage
@@ -25,7 +25,6 @@ services:
     depends_on:
       - redis
       - postgres
-
   redis:
     image: registry.lazycat.cloud/u67025155/library/redis:3b7866f352520b6a
     healthcheck:
@@ -38,7 +37,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
   postgres:
     image: registry.lazycat.cloud/u67025155/pgvector/pgvector:4283c99ecdd2a728
     binds:
