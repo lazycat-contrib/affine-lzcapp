@@ -1,0 +1,62 @@
+application:
+  subdomain: affine
+  multi_instance: false
+  upstreams:
+    - location: /
+      backend: http://affine:3010/
+  public_path:
+    - /
+  health_check:
+    test_url: http://affine:3010/admin/setup
+
+services:
+  affine:
+    # ghcr.io/toeverything/affine:0.27.3
+    image: ghcr.1ms.run/toeverything/affine:0.27.3
+    binds:
+      - /lzcapp/var/storage:/root/.affine/storage
+      - /lzcapp/var/config:/root/.affine/config
+    command: sh -c 'node ./scripts/self-host-predeploy.js && sleep 15 && node ./dist/main.js'
+    environment:
+      - REDIS_SERVER_HOST=redis
+      - 'DATABASE_URL=postgresql://affine:{{ stable_secret "postgres_password" }}@postgres:5432/affine'
+      - AFFINE_INDEXER_ENABLED=false
+      - TZ=Asia/Shanghai
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: registry.lazycat.cloud/u67025155/library/redis:3b7866f352520b6a
+    healthcheck:
+      test:
+        - CMD
+        - redis-cli
+        - --raw
+        - incr
+        - ping
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: registry.lazycat.cloud/u67025155/pgvector/pgvector:4283c99ecdd2a728
+    binds:
+      - /lzcapp/var/postgres/pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=affine
+      - 'POSTGRES_PASSWORD={{ stable_secret "postgres_password" }}'
+      - POSTGRES_DB=affine
+      - POSTGRES_INITDB_ARGS=--data-checksums
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test:
+        - CMD
+        - pg_isready
+        - -U
+        - affine
+        - -d
+        - affine
+      interval: 10s
+      timeout: 5s
+      retries: 5

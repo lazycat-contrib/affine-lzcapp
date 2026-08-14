@@ -1,0 +1,39 @@
+version: 1
+
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: dist/affine.lpk
+  target_arch: amd64
+
+update:
+  strategy: publish
+  allow_downgrade: false
+  version_source:
+    type: image
+    image: affine
+
+build:
+  run_buildscript: false
+
+images:
+  - id: affine
+    target: service
+    service: affine
+    source: ghcr.io/toeverything/affine
+    channel: stable
+    sort: semver
+    tag_regex: '^\d+\.\d+\.\d+$'
+    delivery:
+      mode: mirror
+      require_digest_match: true
+
+stores:
+  official:
+    enabled: false
+  private:
+    enabled: true
+    skip_if_version_exists: true
+    name: AFFiNE
+    summary: 一个注重隐私、本地优先的开源知识工作空间

@@ -1,0 +1,21 @@
+package: community.lazycat.app.affine
+version: 0.27.3
+name: AFFiNE
+description: 一个注重隐私、本地优先、开源且随时可用的 Notion 和 Miro 替代品。一个高度融合的平台，适合富有创造力的头脑。
+license: https://www.mozilla.org/en-US/MPL/2.0
+homepage: https://github.com/toeverything/AFFiNE
+author: d1y
+min_os_version: 1.5.0
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: AFFiNE
+    description: 一个注重隐私、本地优先、开源且随时可用的 Notion 和 Miro 替代品。一个高度融合的平台，适合富有创造力的头脑。
+  zh_CN:
+    name: AFFiNE
+    description: 一个注重隐私、本地优先、开源且随时可用的 Notion 和 Miro 替代品。一个高度融合的平台，适合富有创造力的头脑。
+  en:
+    name: AFFiNE
+    description: A privacy-focused, local-first, open-source, and ready-to-use alternative to Notion and Miro. One hyper-fused platform for wildly creative minds.
