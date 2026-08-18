@@ -11,8 +11,8 @@ application:
 services:
   affine:
     # ghcr.io/toeverything/affine:0.27.3
-    # upstream: ghcr.io/toeverything/affine:0.27.3
-    image: ghcr.1ms.run/toeverything/affine:0.27.3
+    # upstream: ghcr.io/toeverything/affine:0.27.4
+    image: ghcr.1ms.run/toeverything/affine:0.27.4
     binds:
       - /lzcapp/var/storage:/root/.affine/storage
       - /lzcapp/var/config:/root/.affine/config
